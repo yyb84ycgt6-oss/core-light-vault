@@ -46,7 +46,7 @@ await page.route('https://huggingface.co/**', (route) => {
 await page.goto(BASE, { waitUntil: 'networkidle' });
 await page.screenshot({ path: `${OUT}/01-router.png` });
 check('header renders', await page.getByText('Foundry Router v1').isVisible());
-check('8 provider chips', (await page.locator('.pchip').count()) === 8);
+check('9 provider chips', (await page.locator('.pchip').count()) === 9);
 
 // Touch targets: every visible button >= 44px tall except small chips explicitly sized (sm = 36)
 const small = await page.$$eval('.nav button, .pchip, .composer .btn', (els) => els.filter((e) => e.getBoundingClientRect().height < 44).length);
@@ -201,6 +201,12 @@ const card = page.locator('.asset', { hasText: 'all-MiniLM-L6-v2' });
 await card.getByRole('button', { name: 'Download' }).click();
 await card.locator('text=✓ on device').waitFor({ timeout: 15000 });
 check('download stored on device', true);
+await page.route('http://localhost:8080/v1/models', (route) =>
+  route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify({ object: 'list', data: [{ id: 'Llama-3.2-3B-Instruct-Q4_K_M' }] }) }),
+);
+await page.getByRole('button', { name: 'Test connection' }).click();
+await page.locator('text=/Runner up/').waitFor({ timeout: 8000 });
+check('iPhone Runner card reaches a llama.cpp /v1/models', true, await page.locator('text=/Runner up/').innerText());
 await page.fill('input[type=search]', '');
 await page.screenshot({ path: `${OUT}/10-assets.png` });
 

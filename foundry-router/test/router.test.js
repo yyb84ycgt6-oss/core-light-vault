@@ -15,6 +15,8 @@ import {
   CHIPS,
   _resetWindows,
   _resetModelCache,
+  mixedContentRisk,
+  DEFAULT_CHAIN,
 } from '../src/router.js';
 
 beforeEach(() => {
@@ -234,4 +236,30 @@ test('api_forge_config.json mirrors the provider registry', () => {
     PROVIDERS.map((p) => [p.id, p.baseUrl, p.model, p.keyEnv, p.rpm]),
   );
   assert.equal(cfg.backoff.baseMs, 500);
+});
+
+test('iPhone Runner companion: keyless OpenAI-compatible step, own chip, own base URL', async () => {
+  assert.ok(DEFAULT_CHAIN.indexOf('runner') === DEFAULT_CHAIN.indexOf('ollama') + 1);
+  const chip = CHIPS.find((c) => c.provider === 'runner');
+  assert.ok(chip);
+  let seen;
+  const fetchImpl = async (url, init) => {
+    seen = { url, init };
+    return sseResponse([delta('from the iPhone'), 'data: [DONE]\n\n']);
+  };
+  const plan = selectRouter({ chip, chain: [] });
+  const text = await drain(
+    routeChat({ messages: [{ role: 'user', content: 'x' }], plan, overrides: { runner: { baseUrl: 'https://abc.ngrok-free.app/v1/' } }, fetchImpl }),
+  );
+  assert.equal(text, 'from the iPhone');
+  assert.equal(seen.url, 'https://abc.ngrok-free.app/v1/chat/completions');
+  assert.equal(seen.init.headers.Authorization, undefined);
+  assert.equal(seen.init.headers['ngrok-skip-browser-warning'], 'true');
+});
+
+test('mixed-content guard flags http LAN runners from https pages only', () => {
+  assert.equal(mixedContentRisk('http://192.168.1.20:8080/v1', 'https:'), true);
+  assert.equal(mixedContentRisk('http://localhost:8080/v1', 'https:'), false);
+  assert.equal(mixedContentRisk('https://abc.ngrok-free.app/v1', 'https:'), false);
+  assert.equal(mixedContentRisk('http://192.168.1.20:8080/v1', 'http:'), false);
 });

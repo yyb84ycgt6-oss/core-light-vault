@@ -221,6 +221,23 @@
       "enabledByDefault": true
     },
     {
+      "id": "runner",
+      "label": "iPhone Runner",
+      "kind": "openai",
+      "baseUrl": "http://localhost:8080/v1",
+      "keyEnv": null,
+      "model": "llama-3.2-3b-instruct",
+      "prefs": [
+        "3b",
+        "1b",
+        "llama"
+      ],
+      "rpm": 0,
+      "free": "Companion llama.cpp + Metal app · Llama 3.2 3B Q4_K_M on-device, no key",
+      "keyUrl": null,
+      "enabledByDefault": true
+    },
+    {
       "id": "huggingface",
       "label": "Hugging Face",
       "kind": "openai",
@@ -357,6 +374,12 @@
       "label": "Ollama Local",
       "provider": "ollama",
       "model": "llama3.2"
+    },
+    {
+      "id": "runner-3b",
+      "label": "Llama 3.2 3B · iPhone Runner",
+      "provider": "runner",
+      "model": "llama-3.2-3b-instruct"
     },
     {
       "id": "webllm",

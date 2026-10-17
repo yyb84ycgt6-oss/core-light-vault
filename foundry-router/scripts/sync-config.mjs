@@ -36,6 +36,10 @@ const env = [
   '# ngrok http 11434   or   cloudflared tunnel --url http://localhost:11434',
   'VITE_OLLAMA_BASE_URL=http://localhost:11434/v1',
   '',
+  '# iPhone Runner companion (llama.cpp + Metal, docs/RUNNER_CONTRACT.md). Same device:',
+  '# http://localhost:8080/v1 · LAN: http://192.168.x.x:8080/v1 · https tunnel recommended.',
+  'VITE_RUNNER_BASE_URL=http://localhost:8080/v1',
+  '',
 ];
 writeFileSync(new URL('.env.example', root), env.join('\n'));
 console.log('wrote api_forge_config.json and .env.example');

@@ -155,6 +155,21 @@ export const PROVIDERS = [
     headers: (p) => (/ngrok/.test(p.baseUrl) ? { 'ngrok-skip-browser-warning': 'true' } : {}),
   },
   {
+    // Companion app (separate project): llama.cpp + Metal serving Llama 3.2 3B/1B GGUF
+    // on the iPhone or LAN. Contract: docs/RUNNER_CONTRACT.md.
+    id: 'runner',
+    label: 'iPhone Runner',
+    kind: 'openai',
+    baseUrl: 'http://localhost:8080/v1',
+    keyEnv: null,
+    model: 'llama-3.2-3b-instruct',
+    prefs: ['3b', '1b', 'llama'],
+    rpm: 0,
+    free: 'Companion llama.cpp + Metal app · Llama 3.2 3B Q4_K_M on-device, no key',
+    keyUrl: null,
+    headers: (p) => (/ngrok/.test(p.baseUrl) ? { 'ngrok-skip-browser-warning': 'true' } : {}),
+  },
+  {
     id: 'huggingface',
     label: 'Hugging Face',
     kind: 'openai',
@@ -221,6 +236,7 @@ export const CHIPS = [
   { id: 'gemma-groq', label: 'Gemma 2 9B · Groq', provider: 'groq', model: 'gemma2-9b-it', prefs: ['gemma', 'llama-3\\.1-8b-instant'] },
   { id: 'grok-mini', label: 'Grok 3 Mini · xAI', provider: 'xai', model: 'grok-3-mini' },
   { id: 'ollama-local', label: 'Ollama Local', provider: 'ollama', model: 'llama3.2' },
+  { id: 'runner-3b', label: 'Llama 3.2 3B · iPhone Runner', provider: 'runner', model: 'llama-3.2-3b-instruct' },
   { id: 'webllm', label: 'WebLLM Offline · SmolLM2-135M', provider: 'webllm', model: 'SmolLM2-135M-Instruct' },
 ];
 
@@ -476,10 +492,10 @@ export async function* streamProvider(p, { model, messages, apiKey, signal, base
 
 const modelCache = new Map();
 
-export async function listModels(p, { apiKey, baseUrl, fetchImpl = globalThis.fetch, signal } = {}) {
+export async function listModels(p, { apiKey, baseUrl, fetchImpl = globalThis.fetch, signal, fresh = false } = {}) {
   const base = (baseUrl || p.baseUrl).replace(/\/+$/, '');
   const cacheKey = `${p.id}|${base}`;
-  if (modelCache.has(cacheKey)) return modelCache.get(cacheKey);
+  if (!fresh && modelCache.has(cacheKey)) return modelCache.get(cacheKey);
   const headers = { ...authHeaders(p, apiKey), ...(p.headers ? p.headers({ ...p, baseUrl: base }) : {}) };
   const res = await fetchImpl(`${base}/models`, { headers, signal });
   if (!res.ok) throw classify(p.id, res.status, await res.text().catch(() => ''), null);
@@ -490,6 +506,19 @@ export async function listModels(p, { apiKey, baseUrl, fetchImpl = globalThis.fe
   return ids;
 }
 export const _resetModelCache = () => modelCache.clear();
+
+/**
+ * True when an https page would call a plain-http, non-loopback host: browsers block
+ * that as mixed content (the classic "http://192.168.x.x:8080 from an https PWA" trap).
+ */
+export function mixedContentRisk(baseUrl, pageProtocol = typeof location !== 'undefined' ? location.protocol : 'https:') {
+  try {
+    const u = new URL(baseUrl);
+    return pageProtocol === 'https:' && u.protocol === 'http:' && !['localhost', '127.0.0.1', '[::1]'].includes(u.hostname);
+  } catch {
+    return false;
+  }
+}
 
 const NON_CHAT = /embed|whisper|tts|speech|guard|moderation|rerank|image|dall-e|transcribe|audio|vision-preview|search/i;
 

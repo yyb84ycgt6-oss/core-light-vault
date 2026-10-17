@@ -178,6 +178,17 @@ const manifest = {
     onDevice: models.filter((m) => m.meta).map((m) => m.id),
     runtime: { name: 'PyTorch Mobile → ExecuTorch', note: 'Native iOS/Android runtime for the pytorch entries; not usable from a web page' },
   },
+  // Served by the separate iPhone Runner companion app (llama.cpp + Metal), reached as
+  // provider 'runner'. Not counted in the 100: the browser never loads these GGUFs.
+  companion: {
+    name: 'iPhone Runner (llama.cpp + Metal companion app)',
+    contract: 'docs/RUNNER_CONTRACT.md',
+    defaultBaseUrl: 'http://localhost:8080/v1',
+    models: [
+      { name: 'Llama 3.2 3B Instruct Q4_K_M', repo: 'bartowski/Llama-3.2-3B-Instruct-GGUF', file: 'Llama-3.2-3B-Instruct-Q4_K_M.gguf', sizeMB: 2020, meta: true, note: 'Tight on a 4 GB iPhone 12: increased-memory-limit entitlement + ~2k context' },
+      { name: 'Llama 3.2 1B Instruct Q4_K_M', repo: 'bartowski/Llama-3.2-1B-Instruct-GGUF', file: 'Llama-3.2-1B-Instruct-Q4_K_M.gguf', sizeMB: 808, meta: true, note: 'Comfortable fallback on iPhone 12' },
+    ],
+  },
   models,
 };
 

@@ -104,7 +104,7 @@ export default function RouterTab() {
     await Promise.all(
       PROVIDERS.filter((p) => !p.deprecated && (!p.keyEnv || keys[p.keyEnv])).map(async (p) => {
         try {
-          const ids = await listModels(p, { apiKey: keys[p.keyEnv], baseUrl: effectiveOverrides(vault)[p.id]?.baseUrl });
+          const ids = await listModels(p, { apiKey: keys[p.keyEnv], baseUrl: effectiveOverrides(vault)[p.id]?.baseUrl, fresh: true });
           out[p.id] = { ok: true, ids };
         } catch (err) {
           out[p.id] = { ok: false, error: err.message };
@@ -254,17 +254,28 @@ export default function RouterTab() {
             )}
           </div>
         ))}
-        <label className="lbl" htmlFor="ollama-url">
-          Ollama base URL <span className="faint">· localhost, ngrok or Cloudflare Tunnel (needs OLLAMA_ORIGINS)</span>
-        </label>
-        <input
-          id="ollama-url"
-          className="field mono"
-          placeholder="http://localhost:11434/v1"
-          value={vault.overrides.ollama?.baseUrl || ''}
-          onChange={(e) => setVault((v) => ({ ...v, overrides: { ...v.overrides, ollama: { baseUrl: e.target.value.trim() } } }))}
-        />
-        {models.ollama && <div className={models.ollama.ok ? 'faint' : 'err'}>{models.ollama.ok ? `Ollama: ${models.ollama.ids.join(', ') || 'no models pulled'}` : models.ollama.error}</div>}
+        {[
+          ['ollama', 'Ollama base URL', 'http://localhost:11434/v1', 'localhost, ngrok or Cloudflare Tunnel (needs OLLAMA_ORIGINS)'],
+          ['runner', 'iPhone Runner base URL', 'http://localhost:8080/v1', 'llama.cpp companion · same device, LAN IP or https tunnel'],
+        ].map(([id, label, placeholder, hint]) => (
+          <div key={id}>
+            <label className="lbl" htmlFor={`${id}-url`}>
+              {label} <span className="faint">· {hint}</span>
+            </label>
+            <input
+              id={`${id}-url`}
+              className="field mono"
+              placeholder={placeholder}
+              value={vault.overrides[id]?.baseUrl || ''}
+              onChange={(e) => setVault((v) => ({ ...v, overrides: { ...v.overrides, [id]: { baseUrl: e.target.value.trim() } } }))}
+            />
+            {models[id] && (
+              <div className={models[id].ok ? 'faint' : 'err'}>
+                {models[id].ok ? `${providerById(id).label}: ${models[id].ids.join(', ') || 'no models loaded'}` : models[id].error}
+              </div>
+            )}
+          </div>
+        ))}
         <div className="row" style={{ marginTop: 10 }}>
           <button
             className="btn primary"

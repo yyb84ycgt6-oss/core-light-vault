@@ -16,6 +16,8 @@ test('manifest: 100 unique models, 20/20/30/30, tiers match sizes, core 8 presen
     if (x.runtime === 'webllm') assert.match(x.webllm, /-MLC$/);
   }
   assert.equal(m.core.length, 8);
+  assert.equal(m.companion.models.length, 2);
+  for (const g of m.companion.models) assert.match(g.file, /Q4_K_M\.gguf$/);
   for (const id of m.core) assert.ok(m.models.some((x) => x.id === id), id);
 });
 

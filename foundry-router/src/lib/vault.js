@@ -43,7 +43,9 @@ export function effectiveKeys(vault) {
 export function effectiveOverrides(vault) {
   const env = (typeof import.meta !== 'undefined' && import.meta.env) || {};
   const o = { ...vault.overrides };
-  if (!o.ollama?.baseUrl && env.VITE_OLLAMA_BASE_URL) o.ollama = { ...o.ollama, baseUrl: env.VITE_OLLAMA_BASE_URL };
+  for (const [id, name] of [['ollama', 'VITE_OLLAMA_BASE_URL'], ['runner', 'VITE_RUNNER_BASE_URL']]) {
+    if (!o[id]?.baseUrl && env[name]) o[id] = { ...o[id], baseUrl: env[name] };
+  }
   return o;
 }
 

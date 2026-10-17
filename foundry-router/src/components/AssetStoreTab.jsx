@@ -4,6 +4,8 @@ import { createDownloadQueue, isDownloaded, deleteModel, CONCURRENCY } from '../
 import { storageEstimate, requestPersistence } from '../lib/system.js';
 import { prepareModel, webgpuInfo } from '../lib/webllm.js';
 import { fmtBytes } from '../toolbox/yAxisLab.js';
+import { listModels, providerById, mixedContentRisk } from '../router.js';
+import { loadVault, effectiveOverrides } from '../lib/vault.js';
 
 const TIER_LABEL = { green: '✓ iPhone 12', yellow: '◐ CoreML-class', orange: '▲ macro', red: '■ workstation' };
 
@@ -16,6 +18,65 @@ function setStat(id, patch) {
   listeners.forEach((fn) => fn(id, statusCache[id]));
 }
 const queue = createDownloadQueue({ onUpdate: ({ id, ...patch }) => setStat(id, patch) });
+
+function RunnerCard({ companion, notify }) {
+  const baseUrl = effectiveOverrides(loadVault()).runner?.baseUrl || companion.defaultBaseUrl;
+  const [probe, setProbe] = useState(null);
+  const test = async () => {
+    setProbe({ busy: true });
+    try {
+      const ids = await listModels(providerById('runner'), { baseUrl, fresh: true, signal: AbortSignal.timeout(6000) });
+      setProbe({ ok: true, ids });
+    } catch (err) {
+      setProbe({ ok: false, error: String(err.message || err) });
+    }
+  };
+  return (
+    <div className="card small">
+      <div className="row">
+        <b className="grow">📱 {companion.name}</b>
+        <span className="badge">Meta Llama</span>
+      </div>
+      <div className="faint mono" style={{ marginTop: 4 }}>{baseUrl}</div>
+      {mixedContentRisk(baseUrl) && (
+        <div className="warnc" style={{ marginTop: 4 }}>
+          This page is https and the runner is plain http on a LAN address: browsers block that as mixed content. Use an https tunnel (ngrok / cloudflared) or run on the same device via localhost.
+        </div>
+      )}
+      {companion.models.map((m) => (
+        <div key={m.file} className="row" style={{ marginTop: 6 }}>
+          <span className="grow">
+            {m.name} · {(m.sizeMB / 1000).toFixed(2)} GB <span className="faint">· {m.note}</span>
+          </span>
+          <button
+            className="btn sm ghost"
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(`${m.repo} ${m.file}`);
+                notify(`Copied ${m.repo} ${m.file}`);
+              } catch {
+                notify('Clipboard blocked.');
+              }
+            }}
+          >
+            Copy ID
+          </button>
+        </div>
+      ))}
+      <div className="row" style={{ marginTop: 8 }}>
+        <button className="btn sm primary" onClick={test} disabled={probe?.busy}>
+          {probe?.busy ? 'Testing…' : 'Test connection'}
+        </button>
+        <span className="faint">Set the URL in Router → Key vault. Chip: Llama 3.2 3B · iPhone Runner.</span>
+      </div>
+      {probe && !probe.busy && (
+        <div className={probe.ok ? 'okc' : 'err'} style={{ marginTop: 6 }}>
+          {probe.ok ? `✓ Runner up · ${probe.ids.join(', ') || 'no model loaded'}` : `✗ ${probe.error} (runner off, wrong URL, missing CORS headers, or mixed content)`}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function AssetStoreTab() {
   const { notify, setLive, eye } = useApp();
@@ -233,6 +294,13 @@ export default function AssetStoreTab() {
         })}
         {models.length === 0 && <div className="empty">No models match. Raise the size slider or clear the search.</div>}
       </div>
+
+      {manifest.companion && (
+        <>
+          <h2>Companion runner</h2>
+          <RunnerCard companion={manifest.companion} notify={notify} />
+        </>
+      )}
 
       <h2>Meta assets</h2>
       <div className="card small">

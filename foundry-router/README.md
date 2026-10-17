@@ -32,10 +32,18 @@ an ngrok/Cloudflare tunnel to port 5173 works) and *Add to Home Screen*. A produ
 (`npm run build`, any static host) registers a service worker so the shell works offline.
 
 ```sh
-npm test          # 52 unit tests (node:test): codec, crypto, router, eYe, toolbox, data files
+npm test          # 54 unit tests (node:test): codec, crypto, router, eYe, toolbox, data files
 npm run build
-npm run preview   # then: npm i -D playwright && npm run e2e   (36 checks at 390x844)
+npm run preview   # then: npm i -D playwright && npm run e2e   (37 checks at 390x844)
 ```
+
+## iPhone Runner companion
+
+A separate project (built in its own session) hosts Llama 3.2 3B/1B GGUF with llama.cpp + Metal on the
+iPhone and serves the OpenAI-compatible API. The Router reaches it as provider `runner` (own chip,
+own base-URL field, Asset Store *Test connection*). The interface both sides build against, including
+CORS, the iOS mixed-content and backgrounding traps, and memory sizing, is in
+[`docs/RUNNER_CONTRACT.md`](docs/RUNNER_CONTRACT.md).
 
 ## Free AI Router Fabric (fallback chain)
 
@@ -56,9 +64,10 @@ parsed incrementally (chunk-split lines, CRLF, comments, `[DONE]`). Anthropic us
 | 9 | Anthropic | `https://api.anthropic.com/v1` | `claude-haiku-5-5` | $5 credit; claude-3-5-haiku is retired |
 | 10 | OpenAI | `https://api.openai.com/v1` | `gpt-4o-mini` | $5 credit |
 | 11 | Ollama | `http://localhost:11434/v1` | `llama3.2` | unlimited, local or tunnelled |
-| 12 | Hugging Face | `https://router.huggingface.co/v1` | `meta-llama/Llama-3.1-8B-Instruct` | rate-limited; replaces api-inference |
-| 13 | Mistral | `https://api.mistral.ai/v1` | `mistral-small-latest` | free experiment tier |
-| 14 | Cohere | `https://api.cohere.ai/compatibility/v1` | `command-r7b-12-2024` | trial key |
+| 12 | iPhone Runner | `http://localhost:8080/v1` | `llama-3.2-3b-instruct` | companion llama.cpp + Metal app, keyless; see [`docs/RUNNER_CONTRACT.md`](docs/RUNNER_CONTRACT.md) |
+| 13 | Hugging Face | `https://router.huggingface.co/v1` | `meta-llama/Llama-3.1-8B-Instruct` | rate-limited; replaces api-inference |
+| 14 | Mistral | `https://api.mistral.ai/v1` | `mistral-small-latest` | free experiment tier |
+| 15 | Cohere | `https://api.cohere.ai/compatibility/v1` | `command-r7b-12-2024` | trial key |
 | – | Anyscale | `https://api.endpoints.anyscale.com/v1` | – | shut down in 2024; listed, off by default |
 
 Routing rules (all tested in `test/router.test.js`):
@@ -206,6 +215,7 @@ foundry-router/
                          transparencyLog
     workers/             webllm.worker.js, collapse.worker.js
     components/          Header, RouterTab, ToolboxTab, AssetStoreTab, LongStringSheet, Handshake, tools/*
+  docs/                  RUNNER_CONTRACT.md (iPhone Runner companion interface)
   scripts/               sync-config.mjs, build-manifest.mjs, e2e-smoke.mjs
   test/                  *.test.js
 ```
