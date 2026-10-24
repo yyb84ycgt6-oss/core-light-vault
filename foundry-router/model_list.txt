@@ -1,0 +1,100 @@
+# bc-resnet-kws: no public weights - train BC-ResNet-1 for "Hey Jackie" and save as public/models/eye/bc-resnet-heyjackie.onnx
+huggingface-cli download roneneldan/TinyStories-1M pytorch_model.bin --local-dir models/roneneldan/TinyStories-1M
+huggingface-cli download roneneldan/TinyStories-3M pytorch_model.bin --local-dir models/roneneldan/TinyStories-3M
+huggingface-cli download prajjwal1/bert-tiny pytorch_model.bin --local-dir models/prajjwal1/bert-tiny
+huggingface-cli download google/bert_uncased_L-2_H-128_A-2 pytorch_model.bin --local-dir models/google/bert_uncased_L-2_H-128_A-2
+huggingface-cli download Xenova/albert-base-v2 onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/albert-base-v2
+huggingface-cli download Xenova/mobilenet_v2_1.0_224 onnx/model_quantized.onnx --local-dir models/Xenova/mobilenet_v2_1.0_224
+huggingface-cli download WinKawaks/vit-tiny-patch16-224 model.safetensors --local-dir models/WinKawaks/vit-tiny-patch16-224
+huggingface-cli download google/efficientnet-b0 pytorch_model.bin --local-dir models/google/efficientnet-b0
+huggingface-cli download TaylorAI/bge-micro-v2 onnx/model_quantized.onnx tokenizer.json --local-dir models/TaylorAI/bge-micro-v2
+huggingface-cli download Xenova/paraphrase-MiniLM-L3-v2 onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/paraphrase-MiniLM-L3-v2
+huggingface-cli download prajjwal1/bert-mini pytorch_model.bin --local-dir models/prajjwal1/bert-mini
+huggingface-cli download prajjwal1/bert-small pytorch_model.bin --local-dir models/prajjwal1/bert-small
+huggingface-cli download Xenova/bge-small-en-v1.5 onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/bge-small-en-v1.5
+huggingface-cli download Xenova/gte-small onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/gte-small
+huggingface-cli download Xenova/e5-small-v2 onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/e5-small-v2
+huggingface-cli download speechbrain/spkrec-ecapa-voxceleb embedding_model.ckpt --local-dir models/speechbrain/spkrec-ecapa-voxceleb
+huggingface-cli download huawei-noah/TinyBERT_General_4L_312D pytorch_model.bin --local-dir models/huawei-noah/TinyBERT_General_4L_312D
+huggingface-cli download Xenova/whisper-tiny onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/whisper-tiny
+huggingface-cli download Xenova/distilbert-base-uncased-finetuned-sst-2-english onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/distilbert-base-uncased-finetuned-sst-2-english
+huggingface-cli download Xenova/all-MiniLM-L6-v2 onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/all-MiniLM-L6-v2
+huggingface-cli download Xenova/multi-qa-MiniLM-L6-cos-v1 onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/multi-qa-MiniLM-L6-cos-v1
+huggingface-cli download fcakyon/yolov5n-v7.0 yolov5n.pt --local-dir models/fcakyon/yolov5n-v7.0
+huggingface-cli download Ultralytics/YOLOv8 yolov8n.pt --local-dir models/Ultralytics/YOLOv8
+huggingface-cli download microsoft/resnet-18 model.safetensors --local-dir models/microsoft/resnet-18
+huggingface-cli download onnx-community/depth-anything-v2-small onnx/model_quantized.onnx --local-dir models/onnx-community/depth-anything-v2-small
+huggingface-cli download Xenova/convnext-tiny-224 onnx/model_quantized.onnx --local-dir models/Xenova/convnext-tiny-224
+huggingface-cli download segmind/tiny-sd unet/diffusion_pytorch_model.safetensors --local-dir models/segmind/tiny-sd
+huggingface-cli download Xenova/yolos-small onnx/model_quantized.onnx --local-dir models/Xenova/yolos-small
+huggingface-cli download cerebras/Cerebras-GPT-111M pytorch_model.bin --local-dir models/cerebras/Cerebras-GPT-111M
+huggingface-cli download facebook/MobileLLM-125M pytorch_model.bin --local-dir models/facebook/MobileLLM-125M
+huggingface-cli download mlc-ai/SmolLM2-135M-Instruct-q0f16-MLC --local-dir models/mlc-ai/SmolLM2-135M-Instruct-q0f16-MLC
+huggingface-cli download state-spaces/mamba-130m-hf model.safetensors --local-dir models/state-spaces/mamba-130m-hf
+huggingface-cli download Xenova/distilgpt2 onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/distilgpt2
+huggingface-cli download EleutherAI/pythia-70m model.safetensors --local-dir models/EleutherAI/pythia-70m
+huggingface-cli download Xenova/gpt2 onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/gpt2
+huggingface-cli download EleutherAI/pythia-160m model.safetensors --local-dir models/EleutherAI/pythia-160m
+huggingface-cli download microsoft/table-transformer-detection model.safetensors --local-dir models/microsoft/table-transformer-detection
+huggingface-cli download microsoft/table-transformer-structure-recognition model.safetensors --local-dir models/microsoft/table-transformer-structure-recognition
+huggingface-cli download facebook/dinov2-small model.safetensors --local-dir models/facebook/dinov2-small
+huggingface-cli download Xenova/opt-125m onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/opt-125m
+huggingface-cli download facebook/MobileLLM-350M pytorch_model.bin --local-dir models/facebook/MobileLLM-350M
+huggingface-cli download mlc-ai/SmolLM2-360M-Instruct-q4f16_1-MLC --local-dir models/mlc-ai/SmolLM2-360M-Instruct-q4f16_1-MLC
+huggingface-cli download Xenova/gpt-neo-125M onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/gpt-neo-125M
+huggingface-cli download Xenova/codegen-350M-mono onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/codegen-350M-mono
+huggingface-cli download codeparrot/codeparrot-small pytorch_model.bin --local-dir models/codeparrot/codeparrot-small
+huggingface-cli download Salesforce/codet5-small pytorch_model.bin --local-dir models/Salesforce/codet5-small
+huggingface-cli download Xenova/tiny_starcoder_py onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/tiny_starcoder_py
+huggingface-cli download Xenova/whisper-base onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/whisper-base
+huggingface-cli download Xenova/wav2vec2-base-960h onnx/model_quantized.onnx --local-dir models/Xenova/wav2vec2-base-960h
+huggingface-cli download facebook/hubert-base-ls960 pytorch_model.bin --local-dir models/facebook/hubert-base-ls960
+huggingface-cli download microsoft/unispeech-sat-base pytorch_model.bin --local-dir models/microsoft/unispeech-sat-base
+huggingface-cli download Xenova/clap-htsat-unfused onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/clap-htsat-unfused
+huggingface-cli download Xenova/vit-base-patch16-224 onnx/model_quantized.onnx --local-dir models/Xenova/vit-base-patch16-224
+huggingface-cli download Xenova/sam-vit-base onnx/vision_encoder_quantized.onnx onnx/prompt_encoder_mask_decoder_quantized.onnx --local-dir models/Xenova/sam-vit-base
+huggingface-cli download dhkim2810/MobileSAM mobile_sam.pt --local-dir models/dhkim2810/MobileSAM
+huggingface-cli download Intel/dpt-beit-base-384 pytorch_model.bin --local-dir models/Intel/dpt-beit-base-384
+huggingface-cli download Xenova/resnet-50 onnx/model_quantized.onnx --local-dir models/Xenova/resnet-50
+huggingface-cli download Xenova/clip-vit-base-patch32 onnx/vision_model_quantized.onnx onnx/text_model_quantized.onnx tokenizer.json --local-dir models/Xenova/clip-vit-base-patch32
+huggingface-cli download Xenova/siglip-base-patch16-224 onnx/vision_model_quantized.onnx onnx/text_model_quantized.onnx --local-dir models/Xenova/siglip-base-patch16-224
+huggingface-cli download onnx-community/Florence-2-base-ft onnx/vision_encoder_quantized.onnx onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx onnx/embed_tokens_quantized.onnx --local-dir models/onnx-community/Florence-2-base-ft
+huggingface-cli download Xenova/t5-small onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/t5-small
+huggingface-cli download Xenova/flan-t5-small onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/flan-t5-small
+huggingface-cli download Xenova/opus-mt-en-ru onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx --local-dir models/Xenova/opus-mt-en-ru
+huggingface-cli download Xenova/opus-mt-ru-en onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx --local-dir models/Xenova/opus-mt-ru-en
+huggingface-cli download Xenova/bert-base-multilingual-uncased-sentiment onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/bert-base-multilingual-uncased-sentiment
+huggingface-cli download Xenova/detr-resnet-50 onnx/model_quantized.onnx --local-dir models/Xenova/detr-resnet-50
+huggingface-cli download Xenova/yolos-tiny onnx/model_quantized.onnx --local-dir models/Xenova/yolos-tiny
+huggingface-cli download Xenova/vit-gpt2-image-captioning onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/vit-gpt2-image-captioning
+huggingface-cli download mlc-ai/Llama-3.2-1B-Instruct-q4f16_1-MLC --local-dir models/mlc-ai/Llama-3.2-1B-Instruct-q4f16_1-MLC
+huggingface-cli download Xenova/bge-base-en-v1.5 onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/bge-base-en-v1.5
+huggingface-cli download Xenova/e5-base-v2 onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/e5-base-v2
+huggingface-cli download Xenova/gte-base onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/gte-base
+huggingface-cli download nomic-ai/nomic-embed-text-v1.5 onnx/model_quantized.onnx tokenizer.json --local-dir models/nomic-ai/nomic-embed-text-v1.5
+huggingface-cli download mixedbread-ai/mxbai-embed-large-v1 onnx/model_quantized.onnx tokenizer.json --local-dir models/mixedbread-ai/mxbai-embed-large-v1
+huggingface-cli download Xenova/jina-embeddings-v2-base-en onnx/model_quantized.onnx tokenizer.json --local-dir models/Xenova/jina-embeddings-v2-base-en
+huggingface-cli download distil-whisper/distil-small.en onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/distil-whisper/distil-small.en
+huggingface-cli download Xenova/whisper-small onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/whisper-small
+huggingface-cli download Xenova/musicgen-small onnx/decoder_model_merged_quantized.onnx onnx/text_encoder_quantized.onnx onnx/encodec_decode_quantized.onnx tokenizer.json --local-dir models/Xenova/musicgen-small
+huggingface-cli download stabilityai/sd-turbo unet/diffusion_pytorch_model.fp16.safetensors --local-dir models/stabilityai/sd-turbo
+huggingface-cli download segmind/SSD-1B unet/diffusion_pytorch_model.fp16.safetensors --local-dir models/segmind/SSD-1B
+huggingface-cli download lllyasviel/sd-controlnet-depth diffusion_pytorch_model.safetensors --local-dir models/lllyasviel/sd-controlnet-depth
+huggingface-cli download Salesforce/blip-image-captioning-base model.safetensors --local-dir models/Salesforce/blip-image-captioning-base
+huggingface-cli download Xenova/donut-base-finetuned-docvqa onnx/encoder_model_quantized.onnx onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/donut-base-finetuned-docvqa
+huggingface-cli download microsoft/layoutlmv3-base pytorch_model.bin --local-dir models/microsoft/layoutlmv3-base
+huggingface-cli download ibm-granite/granite-3.0-2b-instruct model-00001-of-00002.safetensors model-00002-of-00002.safetensors --local-dir models/ibm-granite/granite-3.0-2b-instruct
+huggingface-cli download mlc-ai/Qwen2.5-0.5B-Instruct-q4f16_1-MLC --local-dir models/mlc-ai/Qwen2.5-0.5B-Instruct-q4f16_1-MLC
+huggingface-cli download h2oai/h2o-danube3-500m-chat model.safetensors --local-dir models/h2oai/h2o-danube3-500m-chat
+huggingface-cli download stabilityai/stablelm-2-zephyr-1_6b model.safetensors --local-dir models/stabilityai/stablelm-2-zephyr-1_6b
+huggingface-cli download Xenova/bloomz-560m onnx/decoder_model_merged_quantized.onnx tokenizer.json --local-dir models/Xenova/bloomz-560m
+huggingface-cli download facebook/xglm-564M pytorch_model.bin --local-dir models/facebook/xglm-564M
+huggingface-cli download state-spaces/mamba-370m-hf model.safetensors --local-dir models/state-spaces/mamba-370m-hf
+huggingface-cli download RWKV/rwkv-4-169m-pile pytorch_model.bin --local-dir models/RWKV/rwkv-4-169m-pile
+huggingface-cli download facebook/MobileLLM-600M pytorch_model.bin --local-dir models/facebook/MobileLLM-600M
+huggingface-cli download EleutherAI/pythia-410m model.safetensors --local-dir models/EleutherAI/pythia-410m
+huggingface-cli download mlc-ai/phi-2-q4f16_1-MLC --local-dir models/mlc-ai/phi-2-q4f16_1-MLC
+huggingface-cli download onnx-community/DeepSeek-R1-Distill-Qwen-1.5B-ONNX onnx/model_q4f16.onnx tokenizer.json --local-dir models/onnx-community/DeepSeek-R1-Distill-Qwen-1.5B-ONNX
+huggingface-cli download onnx-community/Qwen2.5-Coder-1.5B-Instruct onnx/model_q4f16.onnx tokenizer.json --local-dir models/onnx-community/Qwen2.5-Coder-1.5B-Instruct
+huggingface-cli download mlc-ai/SmolLM2-1.7B-Instruct-q4f16_1-MLC --local-dir models/mlc-ai/SmolLM2-1.7B-Instruct-q4f16_1-MLC
+huggingface-cli download mlc-ai/gemma-2-2b-it-q4f16_1-MLC --local-dir models/mlc-ai/gemma-2-2b-it-q4f16_1-MLC

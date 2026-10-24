@@ -1,0 +1,12 @@
+{
+  "name": "Meta Foundry Router v1",
+  "short_name": "Foundry",
+  "description": "Offline-first sovereign router. Conversation is the save.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07080f",
+  "theme_color": "#07080f",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
