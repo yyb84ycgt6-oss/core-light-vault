@@ -1,0 +1,20 @@
+{
+  "name": "meadow-eye",
+  "private": true,
+  "version": "0.1.0-alpha",
+  "description": "MEADOW EYE OS v0.1.0 Alpha - personal offline-first OS. Capability as instinct, not software as product.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.js",
+    "serve": "node scripts/serve.mjs",
+    "e2e": "node scripts/e2e.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "fake-indexeddb": "6.2.5"
+  },
+  "dependencies": {
+    "acorn": "8.18.0"
+  }
+}
