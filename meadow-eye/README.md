@@ -23,6 +23,12 @@ On an iPhone, serve `public/` over HTTPS (any static host or a tunnel), open it 
 Share → Add to Home Screen. WebCrypto, IndexedDB and the service worker need a secure context
 (https or localhost). Opened straight from `file://`, the app runs, but there is no offline cache.
 
+### GitHub Pages
+
+`.github/workflows/meadow-eye-pages.yml` runs the tests, rebuilds and publishes `public/` to
+**https://yyb84ycgt6-oss.github.io/core-light-vault/** on every push to `main` that touches
+`meadow-eye/`. One-time setup: Settings → Pages → Build and deployment → Source: **GitHub Actions**.
+
 ## Seven tabs
 
 | Tab | What you do there |
